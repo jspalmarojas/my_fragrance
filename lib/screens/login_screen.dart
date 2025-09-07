@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'signup_screen.dart'; // Asegúrate de que esta importación esté correcta
-import 'profile_screen.dart'; // Importación de la pantalla de perfil
+import 'signup_screen.dart'; 
+import 'profile_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,19 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  // Lógica de inicio de sesión con Firebase
   void signIn() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      // Navegación a la pantalla de perfil si el inicio de sesión es exitoso
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const ProfileScreen()),
       );
-      print('¡Inicio de sesión exitoso!');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No se encontró un usuario con ese correo.');
@@ -46,61 +44,96 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('MyFraganceAI'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // Título de la pantalla
-              const Text(
-                'MyFraganceAI',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+          padding: const EdgeInsets.all(24.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: 50), // Espacio para bajar el título
+                const Text(
+                  'MyFragranceAI',
+                  style: TextStyle(
+                    fontSize: 32, // Tamaño más grande
+                    fontWeight: FontWeight.bold, // Negrita
+                    color: Colors.deepPurple,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              // Campo para el correo
-              TextField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Ingrese correo',
-                  border: OutlineInputBorder(),
+                const SizedBox(height: 40),
+                Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text(
+                          'Iniciar Sesión',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        TextField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: 'Correo',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            prefixIcon: const Icon(Icons.email),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: 'Contraseña',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            prefixIcon: const Icon(Icons.lock),
+                          ),
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 30),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: signIn,
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            child: const Text('Iniciar Sesión', style: TextStyle(fontSize: 16)),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SignupScreen()),
+                            );
+                          },
+                          child: const Text('¿No tienes una cuenta? Regístrate aquí.'),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              // Campo para la contraseña
-              TextField(
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Ingrese contraseña',
-                  border: OutlineInputBorder(),
-                ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 30),
-              // Botón de iniciar sesión
-              ElevatedButton(
-                onPressed: signIn, // Llama a la función de inicio de sesión
-                child: const Text('Iniciar Sesión'),
-              ),
-              const SizedBox(height: 10),
-              // Botón para ir a la pantalla de registro
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignupScreen()),
-                  );
-                },
-                child: const Text('¿No tienes una cuenta? Regístrate aquí.'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
