@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'screens/login_screen.dart'; // Importa la nueva pantalla
+import 'screens/splash_screen.dart'; // Importa la pantalla de bienvenida
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,11 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyFragranceAI',
+      title: 'MyFraganceAI',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-      home: const LoginScreen(), // Aquí se cambia la pantalla de inicio
+      // La primera pantalla que se muestra es SplashScreen para gestionar el estado de autenticación.
+      home: const SplashScreen(),
     );
   }
 }
