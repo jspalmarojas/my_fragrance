@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'signup_screen.dart'; // Asegúrate de que esta importación esté correcta
+import 'profile_screen.dart'; // Importación de la pantalla de perfil
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,8 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      // Si el inicio de sesión es exitoso, navega a la siguiente pantalla
-      // TODO: Implementar navegación a la pantalla de inicio
+      // Navegación a la pantalla de perfil si el inicio de sesión es exitoso
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfileScreen()),
+      );
       print('¡Inicio de sesión exitoso!');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
